@@ -15,7 +15,6 @@ class Edades:
         print(f"ANA:     {self.ana}")
         print(f"MAMA:    {self.mama}")
 
-# --- Ejecución del programa ---
 if __name__ == "__main__":
     mis_edades = Edades()
     mis_edades.mostrar_resultados()
