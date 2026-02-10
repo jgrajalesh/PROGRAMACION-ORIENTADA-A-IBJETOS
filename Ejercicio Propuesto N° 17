@@ -1,0 +1,11 @@
+# ***Ejercicio Propuesto N° 17*** 
+
+import math
+radio = 9
+
+area = math.pi * radio**2
+longitud = 2 * math.pi * radio
+
+print(f"Resultados para un círculo de radio: {radio}")
+print(f"El área es: {area:.2f}")
+print(f"La longitud (perímetro) es: {longitud:.2f}")
