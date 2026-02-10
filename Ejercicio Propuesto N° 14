@@ -1,0 +1,10 @@
+# ***Ejercicio Propuesto N° 14***
+
+def mostrar_potencias(n):
+    print(f"Analizando el número: {n}")
+    print(f" > Cuadrado: {n**2}")
+    print(f" > Cubo:     {n**3}")
+    print("-" * 20)
+
+# Ahora puedes usarla con cualquier número
+mostrar_potencias(9)
