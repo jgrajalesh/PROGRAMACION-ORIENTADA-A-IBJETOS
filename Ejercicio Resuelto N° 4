@@ -1,0 +1,21 @@
+# ***Ejercicio Resuelto N° 4***
+
+class Edades:
+    def __init__(self, ed_juan=9):
+        # Definimos los atributos basados en la edad de Juan
+        self.juan = ed_juan
+        self.alberto = int((2/3) * self.juan)
+        self.ana = int((4/3) * self.juan)
+        self.mama = int(self.alberto + self.juan + self.ana)
+
+    def mostrar_resultados(self):
+        print("--- LAS EDADES SON ---")
+        print(f"ALBERTO: {self.alberto}")
+        print(f"JUAN:    {self.juan}")
+        print(f"ANA:     {self.ana}")
+        print(f"MAMA:    {self.mama}")
+
+# --- Ejecución del programa ---
+if __name__ == "__main__":
+    mis_edades = Edades()
+    mis_edades.mostrar_resultados()
