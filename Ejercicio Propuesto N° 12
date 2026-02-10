@@ -1,0 +1,18 @@
+# ***Ejercicio Propuesto N° 12***
+
+# Definición de constantes y variables
+horas_trabajadas = 48
+valor_hora = 5000
+PORCENTAJE_RETENCION = 0.125  # Equivale a 12.5 / 100
+
+salario_bruto = horas_trabajadas * valor_hora
+retencion = salario_bruto * PORCENTAJE_RETENCION
+salario_neto = salario_bruto - retencion
+
+print(f"Resumen de Nómina".center(30, "-"))
+print(f"Horas trabajadas: {horas_trabajadas}")
+print(f"Valor de la hora: ${valor_hora:,}")
+print("-" * 30)
+print(f"SALARIO BRUTO:    ${salario_bruto:,.0f}")
+print(f"RETENCIÓN (12.5%):${retencion:,.0f}")
+print(f"SALARIO NETO:     ${salario_neto:,.0f}")
