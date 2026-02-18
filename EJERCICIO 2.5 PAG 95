@@ -1,0 +1,60 @@
+from enum import Enum
+
+class TipoCuenta(Enum):
+    """Define los tipos de cuenta permitidos."""
+    AHORROS = "Ahorros"
+    CORRIENTE = "Corriente"
+
+class CuentaBancaria:
+    def __init__(self, nombres_titular, apellidos_titular, numero_cuenta, tipo_cuenta):
+        self.nombres_titular = nombres_titular
+        self.apellidos_titular = apellidos_titular
+        self.numero_cuenta = numero_cuenta
+        self.tipo_cuenta = tipo_cuenta
+        self.saldo = 0.0  # Atributo con valor inicial cero
+
+    def imprimir(self):
+        """Muestra todos los datos de la cuenta."""
+        print(f"Nombres del titular = {self.nombres_titular}")
+        print(f"Apellidos del titular = {self.apellidos_titular}")
+        print(f"Número de cuenta = {self.numero_cuenta}")
+        print(f"Tipo de cuenta = {self.tipo_cuenta.value}")
+        print(f"Saldo = ${self.saldo:,.2f}")
+        print("-" * 30)
+
+    def consultar_saldo(self):
+        """Imprime el saldo actual formateado."""
+        print(f"El saldo actual es = ${self.saldo:,.2f}")
+
+    def consignar(self, valor):
+        if valor > 0:
+            self.saldo += valor
+            print(f"Se ha consignado ${valor:,.2f} en la cuenta. El nuevo saldo es ${self.saldo:,.2f}")
+            return True
+        else:
+            print("El valor a consignar debe ser mayor que cero.")
+            return False
+
+    def retirar(self, valor):
+        if valor > 0 and valor <= self.saldo:
+            self.saldo -= valor
+            print(f"Se ha retirado ${valor:,.2f} de la cuenta. El nuevo saldo es ${self.saldo:,.2f}")
+            return True
+        else:
+            print("Operación fallida: El valor a retirar debe ser positivo y no superar el saldo actual.")
+            return False
+
+if __name__ == "__main__":
+    # Crear la cuenta
+    cuenta = CuentaBancaria("Pedro", "Pérez", 123456789, TipoCuenta.AHORROS)
+    
+    # Mostrar datos iniciales
+    cuenta.imprimir()
+    
+    # Realizar operaciones
+    cuenta.consignar(200000)
+    cuenta.consignar(300000)
+    cuenta.retirar(400000)
+    
+    # Intentar un retiro inválido por falta de fondos
+    cuenta.retirar(150000)
