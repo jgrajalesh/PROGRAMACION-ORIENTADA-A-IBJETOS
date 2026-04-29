@@ -1,0 +1,150 @@
+import math
+
+class Notas:
+    def __init__(self):
+        self.lista_notas = [0.0] * 5
+
+    def calcular_promedio(self):
+        suma = 0.0
+        for nota in self.lista_notas:
+            suma += nota
+        return suma / len(self.lista_notas)
+
+    def calcular_desviacion(self):
+        prom = self.calcular_promedio()
+        suma = 0.0
+        for nota in self.lista_notas:
+            suma += math.pow(nota - prom, 2)
+        return math.sqrt(suma / len(self.lista_notas))
+
+    def calcular_menor(self):
+        menor = self.lista_notas[0]
+        for nota in self.lista_notas:
+            if nota < menor:
+                menor = nota
+        return menor
+
+    def calcular_mayor(self):
+        mayor = self.lista_notas[0]
+        for nota in self.lista_notas:
+            if nota > mayor:
+                mayor = nota
+        return mayor
+    
+import statistics
+
+class Notas:
+    def __init__(self):
+        self.lista_notas = [0.0] * 5
+
+    def calcular_promedio(self):
+        return sum(self.lista_notas) / len(self.lista_notas)
+
+    def calcular_desviacion(self):
+        return statistics.pstdev(self.lista_notas)
+
+    def calcular_menor(self):
+        return min(self.lista_notas)
+
+    def calcular_mayor(self):
+        return max(self.lista_notas)
+import tkinter as tk
+
+class VentanaPrincipal:
+    def __init__(self):
+        self.ventana = tk.Tk()
+        self.ventana.title("Notas")
+        self.ventana.geometry("280x380")
+        self.ventana.resizable(False, False)
+        
+        window_width = 280
+        window_height = 380
+        screen_width = self.ventana.winfo_screenwidth()
+        screen_height = self.ventana.winfo_screenheight()
+        center_x = int(screen_width/2 - window_width / 2)
+        center_y = int(screen_height/2 - window_height / 2)
+        self.ventana.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+        
+        self.inicio()
+
+    def inicio(self):
+        self.nota1 = tk.Label(self.ventana, text="Nota 1:", anchor="w")
+        self.nota1.place(x=20, y=20, width=80, height=23)
+        self.campo_nota1 = tk.Entry(self.ventana)
+        self.campo_nota1.place(x=105, y=20, width=135, height=23)
+
+        self.nota2 = tk.Label(self.ventana, text="Nota 2:", anchor="w")
+        self.nota2.place(x=20, y=50, width=80, height=23)
+        self.campo_nota2 = tk.Entry(self.ventana)
+        self.campo_nota2.place(x=105, y=50, width=135, height=23)
+
+        self.nota3 = tk.Label(self.ventana, text="Nota 3:", anchor="w")
+        self.nota3.place(x=20, y=80, width=80, height=23)
+        self.campo_nota3 = tk.Entry(self.ventana)
+        self.campo_nota3.place(x=105, y=80, width=135, height=23)
+
+        self.nota4 = tk.Label(self.ventana, text="Nota 4:", anchor="w")
+        self.nota4.place(x=20, y=110, width=80, height=23)
+        self.campo_nota4 = tk.Entry(self.ventana)
+        self.campo_nota4.place(x=105, y=110, width=135, height=23)
+
+        self.nota5 = tk.Label(self.ventana, text="Nota 5:", anchor="w")
+        self.nota5.place(x=20, y=140, width=80, height=23)
+        self.campo_nota5 = tk.Entry(self.ventana)
+        self.campo_nota5.place(x=105, y=140, width=135, height=23)
+
+        self.calcular = tk.Button(self.ventana, text="Calcular", command=self.action_calcular)
+        self.calcular.place(x=20, y=170, width=100, height=23)
+
+        self.limpiar = tk.Button(self.ventana, text="Limpiar", command=self.action_limpiar)
+        self.limpiar.place(x=125, y=170, width=80, height=23)
+
+        self.promedio = tk.Label(self.ventana, text="Promedio = ", anchor="w")
+        self.promedio.place(x=20, y=210, width=200, height=23)
+
+        self.desviacion = tk.Label(self.ventana, text="Desviación = ", anchor="w")
+        self.desviacion.place(x=20, y=240, width=200, height=23)
+
+        self.mayor = tk.Label(self.ventana, text="Nota mayor = ", anchor="w")
+        self.mayor.place(x=20, y=270, width=200, height=23)
+
+        self.menor = tk.Label(self.ventana, text="Nota menor = ", anchor="w")
+        self.menor.place(x=20, y=300, width=200, height=23)
+
+    def action_calcular(self):
+        notas = Notas()  
+        try:
+            notas.lista_notas[0] = float(self.campo_nota1.get())
+            notas.lista_notas[1] = float(self.campo_nota2.get())
+            notas.lista_notas[2] = float(self.campo_nota3.get())
+            notas.lista_notas[3] = float(self.campo_nota4.get())
+            notas.lista_notas[4] = float(self.campo_nota5.get())
+
+            prom = notas.calcular_promedio()
+            desv = notas.calcular_desviacion()
+            may = notas.calcular_mayor()
+            men = notas.calcular_menor()
+
+            self.promedio.config(text=f"Promedio = {prom:.2f}")
+            self.desviacion.config(text=f"Desviación estándar = {desv:.2f}")
+            self.mayor.config(text=f"Valor mayor = {may}")
+            self.menor.config(text=f"Valor menor = {men}")
+        except ValueError:
+            pass
+
+    def action_limpiar(self):
+        self.campo_nota1.delete(0, tk.END)
+        self.campo_nota2.delete(0, tk.END)
+        self.campo_nota3.delete(0, tk.END)
+        self.campo_nota4.delete(0, tk.END)
+        self.campo_nota5.delete(0, tk.END)
+
+if __name__ == "__main__":
+    app = VentanaPrincipal()
+    app.ventana.mainloop()
+
+from ventana_principal import VentanaPrincipal
+
+if __name__ == "__main__":
+    mi_ventana_principal = VentanaPrincipal()
+    mi_ventana_principal.ventana.mainloop()
