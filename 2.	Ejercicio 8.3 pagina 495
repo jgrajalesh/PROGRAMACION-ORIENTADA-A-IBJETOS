@@ -1,0 +1,214 @@
+import math
+import tkinter as tk
+from tkinter import messagebox
+
+class FiguraGeometrica:
+    def __init__(self):
+        self._volumen = 0.0
+        self._superficie = 0.0
+
+    def set_volumen(self, volumen):
+        self._volumen = volumen
+
+    def set_superficie(self, superficie):
+        self._superficie = superficie
+
+    def get_volumen(self):
+        return self._volumen
+
+    def get_superficie(self):
+        return self._superficie
+
+class Cilindro(FiguraGeometrica):
+    def __init__(self, radio, altura):
+        super().__init__()
+        self.radio = radio
+        self.altura = altura
+        self.set_volumen(self.calcular_volumen())
+        self.set_superficie(self.calcular_superficie())
+
+    def calcular_volumen(self):
+        return math.pi * self.altura * math.pow(self.radio, 2.0)
+
+    def calcular_superficie(self):
+        area_lado_a = 2.0 * math.pi * self.radio * self.altura
+        area_lado_b = 2.0 * math.pi * math.pow(self.radio, 2.0)
+        return area_lado_a + area_lado_b
+
+class Esfera(FiguraGeometrica):
+    def __init__(self, radio):
+        super().__init__()
+        self.radio = radio
+        self.set_volumen(self.calcular_volumen())
+        self.set_superficie(self.calcular_superficie())
+
+    def calcular_volumen(self):
+        return 1.333 * math.pi * math.pow(self.radio, 3.0)
+
+    def calcular_superficie(self):
+        return 4.0 * math.pi * math.pow(self.radio, 2.0)
+
+class Piramide(FiguraGeometrica):
+    def __init__(self, base, altura, apotema):
+        super().__init__()
+        self.base = base
+        self.altura = altura
+        self.apotema = apotema
+        self.set_volumen(self.calcular_volumen())
+        self.set_superficie(self.calcular_superficie())
+
+    def calcular_volumen(self):
+        return (math.pow(self.base, 2.0) * self.altura) / 3.0
+
+    def calcular_superficie(self):
+        area_base = math.pow(self.base, 2.0)
+        area_lado = 2.0 * self.base * self.apotema
+        return area_base + area_lado
+
+class VentanaCilindro:
+    def __init__(self, master):
+        self.ventana = tk.Toplevel(master)
+        self.ventana.title("Cilindro")
+        self.ventana.geometry("280x210")
+        self.ventana.resizable(False, False)
+        self.inicio()
+
+    def inicio(self):
+        self.lbl_radio = tk.Label(self.ventana, text="Radio (cms):", anchor="w")
+        self.lbl_radio.place(x=20, y=20, width=135, height=23)
+        self.campo_radio = tk.Entry(self.ventana)
+        self.campo_radio.place(x=100, y=20, width=135, height=23)
+
+        self.lbl_altura = tk.Label(self.ventana, text="Altura (cms):", anchor="w")
+        self.lbl_altura.place(x=20, y=50, width=135, height=23)
+        self.campo_altura = tk.Entry(self.ventana)
+        self.campo_altura.place(x=100, y=50, width=135, height=23)
+
+        self.btn_calcular = tk.Button(self.ventana, text="Calcular", command=self.action_calcular)
+        self.btn_calcular.place(x=100, y=80, width=135, height=23)
+
+        self.lbl_volumen = tk.Label(self.ventana, text="Volumen (cm3):", anchor="w")
+        self.lbl_volumen.place(x=20, y=110, width=200, height=23)
+
+        self.lbl_superficie = tk.Label(self.ventana, text="Superficie (cm2):", anchor="w")
+        self.lbl_superficie.place(x=20, y=140, width=200, height=23)
+
+    def action_calcular(self):
+        try:
+            radio = float(self.campo_radio.get())
+            altura = float(self.campo_altura.get())
+            cilindro = Cilindro(radio, altura)
+            
+            self.lbl_volumen.config(text=f"Volumen (cm3): {cilindro.calcular_volumen():.2f}")
+            self.lbl_superficie.config(text=f"Superficie (cm2): {cilindro.calcular_superficie():.2f}")
+        except ValueError:
+            messagebox.showerror("Error", "Campo nulo o error en formato de numero")
+
+class VentanaEsfera:
+    def __init__(self, master):
+        self.ventana = tk.Toplevel(master)
+        self.ventana.title("Esfera")
+        self.ventana.geometry("280x200")
+        self.ventana.resizable(False, False)
+        self.inicio()
+
+    def inicio(self):
+        self.lbl_radio = tk.Label(self.ventana, text="Radio (cms):", anchor="w")
+        self.lbl_radio.place(x=20, y=20, width=135, height=23)
+        self.campo_radio = tk.Entry(self.ventana)
+        self.campo_radio.place(x=100, y=20, width=135, height=23)
+
+        self.btn_calcular = tk.Button(self.ventana, text="Calcular", command=self.action_calcular)
+        self.btn_calcular.place(x=100, y=50, width=135, height=23)
+
+        self.lbl_volumen = tk.Label(self.ventana, text="Volumen (cm3):", anchor="w")
+        self.lbl_volumen.place(x=20, y=90, width=200, height=23)
+
+        self.lbl_superficie = tk.Label(self.ventana, text="Superficie (cm2):", anchor="w")
+        self.lbl_superficie.place(x=20, y=120, width=200, height=23)
+
+    def action_calcular(self):
+        try:
+            radio = float(self.campo_radio.get())
+            esfera = Esfera(radio)
+            
+            self.lbl_volumen.config(text=f"Volumen (cm3): {esfera.calcular_volumen():.2f}")
+            self.lbl_superficie.config(text=f"Superficie (cm2): {esfera.calcular_superficie():.2f}")
+        except ValueError:
+            messagebox.showerror("Error", "Campo nulo o error en formato de número")
+
+class VentanaPiramide:
+    def __init__(self, master):
+        self.ventana = tk.Toplevel(master)
+        self.ventana.title("Pirámide")
+        self.ventana.geometry("280x240")
+        self.ventana.resizable(False, False)
+        self.inicio()
+
+    def inicio(self):
+        self.lbl_base = tk.Label(self.ventana, text="Base (cms):", anchor="w")
+        self.lbl_base.place(x=20, y=20, width=135, height=23)
+        self.campo_base = tk.Entry(self.ventana)
+        self.campo_base.place(x=120, y=20, width=135, height=23)
+
+        self.lbl_altura = tk.Label(self.ventana, text="Altura (cms):", anchor="w")
+        self.lbl_altura.place(x=20, y=50, width=135, height=23)
+        self.campo_altura = tk.Entry(self.ventana)
+        self.campo_altura.place(x=120, y=50, width=135, height=23)
+
+        self.lbl_apotema = tk.Label(self.ventana, text="Apotema (cms):", anchor="w")
+        self.lbl_apotema.place(x=20, y=80, width=135, height=23)
+        self.campo_apotema = tk.Entry(self.ventana)
+        self.campo_apotema.place(x=120, y=80, width=135, height=23)
+
+        self.btn_calcular = tk.Button(self.ventana, text="Calcular", command=self.action_calcular)
+        self.btn_calcular.place(x=120, y=110, width=135, height=23)
+
+        self.lbl_volumen = tk.Label(self.ventana, text="Volumen (cm3):", anchor="w")
+        self.lbl_volumen.place(x=20, y=140, width=200, height=23)
+
+        self.lbl_superficie = tk.Label(self.ventana, text="Superficie (cm2):", anchor="w")
+        self.lbl_superficie.place(x=20, y=170, width=200, height=23)
+
+    def action_calcular(self):
+        try:
+            base = float(self.campo_base.get())
+            altura = float(self.campo_altura.get())
+            apotema = float(self.campo_apotema.get())
+            piramide = Piramide(base, altura, apotema)
+            
+            self.lbl_volumen.config(text=f"Volumen (cm3): {piramide.calcular_volumen():.2f}")
+            self.lbl_superficie.config(text=f"Superficie (cm2): {piramide.calcular_superficie():.2f}")
+        except ValueError:
+            messagebox.showerror("Error", "Campo nulo o error en formato de número")
+
+class VentanaPrincipal:
+    def __init__(self):
+        self.ventana = tk.Tk()
+        self.ventana.title("Figuras")
+        self.ventana.geometry("350x160")
+        self.ventana.resizable(False, False)
+        self.inicio()
+
+    def inicio(self):
+        self.btn_cilindro = tk.Button(self.ventana, text="Cilindro", command=self.abrir_cilindro)
+        self.btn_cilindro.place(x=20, y=50, width=80, height=23)
+
+        self.btn_esfera = tk.Button(self.ventana, text="Esfera", command=self.abrir_esfera)
+        self.btn_esfera.place(x=125, y=50, width=80, height=23)
+
+        self.btn_piramide = tk.Button(self.ventana, text="Pirámide", command=self.abrir_piramide)
+        self.btn_piramide.place(x=225, y=50, width=100, height=23)
+
+    def abrir_cilindro(self):
+        VentanaCilindro(self.ventana)
+
+    def abrir_esfera(self):
+        VentanaEsfera(self.ventana)
+
+    def abrir_piramide(self):
+        VentanaPiramide(self.ventana)
+
+if __name__ == "__main__":
+    app = VentanaPrincipal()
+    app.ventana.mainloop()
