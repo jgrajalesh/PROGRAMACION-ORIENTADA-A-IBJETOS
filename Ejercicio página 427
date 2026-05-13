@@ -1,0 +1,55 @@
+import os
+import tkinter as tk
+
+class LeerArchivo:
+    @staticmethod
+    def main() -> list:
+        nombre_archivo = "prueba.txt"
+        salida = []
+        
+        try:
+            with open(nombre_archivo, "w", encoding="utf-8") as f:
+                for i in range(1, 11):
+                    f.write(f"Linea {i}\n")
+        except IOError:
+            pass
+
+        try:
+            with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+                for linea in archivo:
+                    salida.append(linea.strip())
+        except IOError:
+            salida.append("No se pudo leer el archivo.")
+        finally:
+            if os.path.exists(nombre_archivo):
+                os.remove(nombre_archivo)
+                
+        return salida
+
+class VentanaLectura:
+    def __init__(self, lineas: list):
+        self.ventana = tk.Tk()
+        self.ventana.title("LeerArchivo")
+        self.ventana.geometry("150x250")
+        self.ventana.resizable(False, False)
+        self.ventana.configure(bg="white")
+        
+        panel_texto = tk.Text(
+            self.ventana, 
+            font=("Courier New", 12), 
+            bg="white", 
+            fg="black",
+            borderwidth=0, 
+            highlightthickness=0
+        )
+        panel_texto.pack(expand=True, fill="both", padx=15, pady=15)
+        
+        for linea in lineas:
+            panel_texto.insert(tk.END, f"{linea}\n")
+            
+        panel_texto.config(state=tk.DISABLED)
+
+if __name__ == "__main__":
+    lineas_leidas = LeerArchivo.main()
+    app = VentanaLectura(lineas_leidas)
+    app.ventana.mainloop()
