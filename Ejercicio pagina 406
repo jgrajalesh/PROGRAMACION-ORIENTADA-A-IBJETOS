@@ -1,0 +1,57 @@
+import tkinter as tk
+
+class Vendedor:
+    def __init__(self, nombre: str, apellidos: str):
+        self.nombre = nombre
+        self.apellidos = apellidos
+        self.edad = 0
+
+    def verificar_edad(self, edad: int) -> None:
+        if edad < 18:
+            raise ValueError("El vendedor debe ser mayor de 18 años.")
+        if 0 <= edad < 120:
+            self.edad = edad
+        else:
+            raise ValueError("La edad no puede ser negativa ni mayor a 120.")
+
+    def imprimir(self) -> None:
+        print(f"Nombre del vendedor = {self.nombre}")
+        print(f"Apellidos del vendedor = {self.apellidos}")
+        print(f"Edad del vendedor = {self.edad}")
+
+class VentanaEmergente:
+    def __init__(self, nombre: str, apellidos: str, edad: str):
+        self.ventana = tk.Tk()
+        self.ventana.title("Consola de salida")
+        self.ventana.geometry("320x180")
+        
+        panel_texto = tk.Text(self.ventana, font=("Courier New", 11), bg="white")
+        panel_texto.pack(expand=True, fill="both", padx=10, pady=10)
+        
+        panel_texto.tag_config("etiqueta", foreground="black")
+        panel_texto.tag_config("ingreso", foreground="blue")
+        
+        panel_texto.insert(tk.END, "Nombre del vendedor =\n", "etiqueta")
+        panel_texto.insert(tk.END, f"{nombre}\n", "ingreso")
+        panel_texto.insert(tk.END, "Apellidos del vendedor =\n", "etiqueta")
+        panel_texto.insert(tk.END, f"{apellidos}\n", "ingreso")
+        panel_texto.insert(tk.END, "Edad del vendedor =\n", "etiqueta")
+        panel_texto.insert(tk.END, f"{edad}\n", "ingreso")
+        
+        panel_texto.config(state=tk.DISABLED)
+
+if __name__ == "__main__":
+    nombre_fijo = "Pedro"
+    apellidos_fijos = "Perez"
+    edad_fija_str = "17"
+    
+    vendedor = Vendedor(nombre_fijo, apellidos_fijos)
+    
+    try:
+        vendedor.verificar_edad(int(edad_fija_str))
+        vendedor.imprimir()
+    except ValueError as e:
+        print(f"Excepción capturada: {e}")
+        
+    app = VentanaEmergente(nombre_fijo, apellidos_fijos, edad_fija_str)
+    app.ventana.mainloop()
