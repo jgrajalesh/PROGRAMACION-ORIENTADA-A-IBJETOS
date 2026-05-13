@@ -1,0 +1,75 @@
+import math
+import tkinter as tk
+
+class CalculosNumericos:
+    def __init__(self):
+        self.salida = []
+
+    def calcular_logaritmo_neperiano(self, valor: float) -> None:
+        try:
+            if valor < 0:
+                raise ValueError("El valor debe ser un número positivo")
+            resultado = math.log(valor)
+            self.salida.append(f"Resultado = {resultado}")
+        except ValueError as e:
+            if str(e) == "El valor debe ser un número positivo":
+                self.salida.append("El valor debe ser un número positivo para calcular el logaritmo")
+            else:
+                self.salida.append("El valor debe ser numérico para calcular el logaritmo")
+        except TypeError:
+            self.salida.append("El valor debe ser numérico para calcular el logaritmo")
+
+    def calcular_raiz_cuadrada(self, valor: float) -> None:
+        try:
+            if valor < 0:
+                raise ValueError("El valor debe ser un número positivo")
+            resultado = math.sqrt(valor)
+            self.salida.append(f"Resultado = {resultado}")
+        except ValueError as e:
+            if str(e) == "El valor debe ser un número positivo":
+                self.salida.append("El valor debe ser un número positivo para calcular la raíz cuadrada")
+            else:
+                self.salida.append("El valor debe ser numérico para calcular la raíz cuadrada")
+        except TypeError:
+            self.salida.append("El valor debe ser numérico para calcular la raíz cuadrada")
+
+    def ejecutar(self, valor_str: str) -> list:
+        self.salida.clear()
+        try:
+            valor = float(valor_str)
+            self.calcular_logaritmo_neperiano(valor)
+            self.calcular_raiz_cuadrada(valor)
+        except ValueError:
+            self.salida.append("El valor debe ser numérico para calcular el logaritmo")
+            self.salida.append("El valor debe ser numérico para calcular la raíz cuadrada")
+        return self.salida
+
+class VentanaEjecucion:
+    def __init__(self, valor_ingresado: str, lineas_salida: list):
+        self.ventana = tk.Tk()
+        self.ventana.title("Ejecución del programa")
+        self.ventana.geometry("650x120")
+        self.ventana.resizable(False, False)
+        
+        panel_texto = tk.Text(self.ventana, font=("Courier New", 11), bg="white")
+        panel_texto.pack(expand=True, fill="both", padx=10, pady=10)
+        
+        panel_texto.tag_config("etiqueta", foreground="black")
+        panel_texto.tag_config("ingreso", foreground="blue")
+        
+        panel_texto.insert(tk.END, "Valor numérico = ", "etiqueta")
+        panel_texto.insert(tk.END, f"{valor_ingresado}\n", "ingreso")
+        
+        for linea in lineas_salida:
+            panel_texto.insert(tk.END, f"{linea}\n", "etiqueta")
+            
+        panel_texto.config(state=tk.DISABLED)
+
+if __name__ == "__main__":
+    valor_fijo = "-200"
+    
+    calculadora = CalculosNumericos()
+    resultados = calculadora.ejecutar(valor_fijo)
+    
+    app = VentanaEjecucion(valor_fijo, resultados)
+    app.ventana.mainloop()
