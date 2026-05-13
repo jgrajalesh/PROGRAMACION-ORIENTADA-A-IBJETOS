@@ -1,0 +1,93 @@
+import tkinter as tk
+
+class Programador:
+    def __init__(self, nombre: str, apellidos: str):
+        self.nombre = nombre
+        self.apellidos = apellidos
+
+class EquipoMaratonProgramacion:
+    def __init__(self, nombre_equipo: str, universidad: str, lenguaje_programacion: str):
+        self.nombre_equipo = nombre_equipo
+        self.universidad = universidad
+        self.lenguaje_programacion = lenguaje_programacion
+        self.programadores = []
+        self.tamano_equipo = 0
+        self.max_integrantes = 3
+
+    def esta_lleno(self) -> bool:
+        return self.tamano_equipo == self.max_integrantes
+
+    def anadir(self, programador: Programador) -> None:
+        if self.esta_lleno():
+            raise Exception("El equipo está completo. No se pudo agregar programador.")
+        self.programadores.append(programador)
+        self.tamano_equipo += 1
+
+    @staticmethod
+    def validar_campo(campo: str) -> None:
+        for c in campo:
+            if c.isdigit():
+                raise ValueError("El nombre no puede tener dígitos.")
+        if len(campo) > 20:
+            raise ValueError("La longitud no debe ser superior a 20 caracteres.")
+
+class VentanaEjecucion:
+    def __init__(self, datos_salida: list):
+        self.ventana = tk.Tk()
+        self.ventana.title("Ejecución del programa")
+        self.ventana.geometry("400x380")
+        self.ventana.resizable(False, False)
+
+        panel_texto = tk.Text(self.ventana, font=("Courier New", 11), bg="white")
+        panel_texto.pack(expand=True, fill="both", padx=10, pady=10)
+
+        panel_texto.tag_config("etiqueta", foreground="black")
+        panel_texto.tag_config("ingreso", foreground="blue")
+
+        for tipo, texto in datos_salida:
+            panel_texto.insert(tk.END, f"{texto}\n", tipo)
+
+        panel_texto.config(state=tk.DISABLED)
+
+if __name__ == "__main__":
+    datos_visuales = [
+        ("etiqueta", "Nombre del equipo = "),
+        ("ingreso", "EquipoUNAL"),
+        ("etiqueta", "Universidad = "),
+        ("ingreso", "Nacional"),
+        ("etiqueta", "Lenguaje de programación = "),
+        ("ingreso", "Java"),
+        ("etiqueta", "Datos de los integrantes del equipo")
+    ]
+
+    integrantes_validos = [
+        ("Jorge", "Ramírez"),
+        ("Pablo", "Perez"),
+        ("Jairo", "Méndez")
+    ]
+
+    equipo = EquipoMaratonProgramacion("EquipoUNAL", "Nacional", "Java")
+
+    for nombre, apellido in integrantes_validos:
+        datos_visuales.append(("etiqueta", "Nombre del integrante = "))
+        try:
+            EquipoMaratonProgramacion.validar_campo(nombre)
+            datos_visuales.append(("ingreso", nombre))
+        except ValueError as e:
+            datos_visuales.append(("etiqueta", str(e)))
+
+        datos_visuales.append(("etiqueta", "Apellidos del integrante = "))
+        try:
+            EquipoMaratonProgramacion.validar_campo(apellido)
+            datos_visuales.append(("ingreso", apellido))
+        except ValueError as e:
+            datos_visuales.append(("etiqueta", str(e)))
+
+        nuevo_programador = Programador(nombre, apellido)
+        try:
+            equipo.anadir(nuevo_programador)
+        except Exception:
+            pass
+
+    app = VentanaEjecucion(datos_visuales)
+    app.ventana.mainloop()
