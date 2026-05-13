@@ -1,0 +1,48 @@
+import tkinter as tk
+
+class PruebaExcepciones:
+    @staticmethod
+    def main():
+        salida = []
+        
+        try:
+            salida.append("Ingresando al primer try")
+            cociente = 10000 / 0
+            salida.append("Después de la división")
+        except ZeroDivisionError:
+            salida.append("División por cero")
+        finally:
+            salida.append("Ingresando al primer finally")
+
+        try:
+            salida.append("Ingresando al segundo try")
+            objeto = None
+            objeto.metodo_inexistente()
+        except ZeroDivisionError:
+            salida.append("División por cero")
+        except Exception:
+            salida.append("Ocurrió una excepción")
+        finally:
+            salida.append("Ingresando al segundo finally")
+
+        return "\n".join(salida)
+
+class VentanaSalida:
+    def __init__(self, texto_salida):
+        self.ventana = tk.Tk()
+        self.ventana.title("Ejecución - Ejercicio 6.4")
+        self.ventana.geometry("320x180")
+        self.ventana.resizable(False, False)
+        
+        self.label_resultados = tk.Label(
+            self.ventana, 
+            text=texto_salida, 
+            justify="left", 
+            font=("Courier New", 11)
+        )
+        self.label_resultados.pack(padx=20, pady=15, anchor="w")
+
+if __name__ == "__main__":
+    resultado_ejecucion = PruebaExcepciones.main()
+    app = VentanaSalida(resultado_ejecucion)
+    app.ventana.mainloop()
