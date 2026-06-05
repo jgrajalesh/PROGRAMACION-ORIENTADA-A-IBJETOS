@@ -1,0 +1,51 @@
+class ArticuloCientifico:
+    """
+    Esta clase define objetos de tipo ArtículoCientífico con un título,
+    autor, tres palabras clave, año de publicación y un resumen.
+    """
+
+    def __init__(self, titulo, autor, palabras_claves=None, publicacion=None, anio=None, resumen=None):
+        """
+        Constructor que centraliza la lógica de inicialización.
+        Utiliza valores por defecto para simular la sobrecarga.
+        """
+        self.titulo = titulo
+        self.autor = autor
+        # Si no se pasan palabras clave, se inicializa como una lista vacía
+        self.palabras_claves = palabras_claves if palabras_claves is not None else []
+        self.publicacion = publicacion
+        self.anio = anio
+        self.resumen = resumen
+
+    def imprimir(self):
+        """
+        Método que imprime en pantalla los datos de un artículo científico.
+        """
+        print(f"Título del artículo = {self.titulo}")
+        print(f"Autor del artículo = {self.autor}")
+        print("Palabras clave = ")
+        
+        # Recorre la lista para imprimir cada palabra clave
+        for palabra in self.palabras_claves:
+            print(palabra)
+            
+        print(f"Publicación = {self.publicacion}")
+        print(f"Año = {self.anio}")
+        print(f"Resumen = {self.resumen}")
+
+
+if __name__ == "__main__":
+    # Instanciación de un artículo científico y muestra de sus datos
+    
+    palabras = ["Física", "Espacio", "Tiempo"]
+    
+    articulo = ArticuloCientifico(
+        titulo="La teoría especial de la relatividad",
+        autor="Albert Einstein",
+        palabras_claves=palabras,
+        publicacion="Anales de Física",
+        anio=1913,
+        resumen="Las leyes de la física son las mismas en todos los sistemas de referencia inerciales."
+    )
+    
+    articulo.imprimir()
